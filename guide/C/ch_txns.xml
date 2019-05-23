@@ -563,18 +563,25 @@
       verification process is known as <emphasis role="strong">reconciliation</emphasis>, and it is key to determine
       whether your records are accurate. Most commonly, you will check transactions
       against bank statements, although you can use this process to verify any
-      transaction.</para>
-
+      transaction against any external record.</para>
+      <para>Accounts which are commonly reconciled include:
+        <itemizedlist>
+          <listitmem>asset accounts e.g. bank accounts;</listitem>
+          <listitmem>liability accounts e.g. credit card and loan accounts</listitem>
+        </itemizedlist>
+      </para>
       <para><application>&app;</application> keeps track of the reconciliation status of each
         transaction. The reconciliation status of a transaction is shown by the
         reconciliation <guilabel>R</guilabel> field in a register:
-        <emphasis>y</emphasis> indicates that a transaction has been
-        reconciled, <emphasis>n</emphasis> indicates that it has not, and <emphasis>c</emphasis> indicates that it has
-        been cleared, but not reconciled. A split marked cleared signifies that you got some kind of confirmation
+        <itemizedlist>
+          <listitem><emphasis role="strong">y</emphasis> indicates that a transaction has been reconciled,</listitem>
+          <listitem><emphasis role="strong">n</emphasis> indicates that it has not,</listitem> and 
+          <listitem><emphasis role="strong">c</emphasis> indicates that it has been cleared, but not reconciled.</listitem></para>
+        <para> A split marked cleared signifies that you got some kind of confirmation
         that the institution accepted the order (e.g. you have the restaurant's receipt for your credit card purchase).
-        You can toggle the reconciliation status
-        between <emphasis>n</emphasis> and <emphasis>c</emphasis> by clicking in the <guilabel>R</guilabel> field; you can set
-        it to <emphasis>y</emphasis> by using <xref linkend="txns-reconcile-window2" />.</para>
+        The reconciliation status  can be toggled between <emphasis role="strong">n</emphasis> and <emphasis role="strong">c</emphasis>
+        by clicking in the <guilabel>R</guilabel> field; you can only set
+        it to <emphasis role="strong">y</emphasis> by using <xref linkend="txns-reconcile-window2" />.</para>
 
       <para>At the bottom of the account window, there are (among others) two running
       balances (the <guilabel>cleared</guilabel> and <guilabel>reconciled</guilabel> balance), and the
@@ -585,7 +592,7 @@
       enter the transaction into <application>&app;</application>. The reconciliation <guilabel>R</guilabel> field of the
       transaction will initially contain <guilabel>n</guilabel> (new). Your new entry will
       contribute to the <guilabel>total</guilabel> balance, but not to the <guilabel>cleared</guilabel> and
-      <guilabel>reconciled</guilabel> balance. Later, if you got some confirmation that the check has been cashed,
+      <guilabel>reconciled</guilabel> balance. Later, if you received some confirmation that the check has been cashed,
       you might click on the transaction&rsquo;s <guilabel>R</guilabel> field to change it to <emphasis>c</emphasis>
       (cleared). When you do this, the <guilabel>cleared</guilabel> balance will
       change to include this amount. When the bank statement arrives, you can
@@ -658,12 +665,12 @@
 
             <warning><para>Sometimes, the opening balance in <application>&app;</application> does not match
               that found on your statement. This can happen the first time you reconcile your account or
-              when a previously-reconciled transaction is de-reconciled or deleted.</para></warning>
+              when a previously-reconciled transaction has been de-reconciled or deleted.</para></warning>
 
             <note><para>The first time you reconcile your account, the <guilabel>starting balance</guilabel>
               will be <guilabel>0.00</guilabel>, thus probably not the  <emphasis>opening balance</emphasis>
               of your account. When you reconcile the account, the <emphasis>opening balance</emphasis> for the
-              account will be included in the reconciliation, and the result should balance.</para></note>
+              account will be included in the reconciliation, and the result should then balance.</para></note>
 
             <tip>
               <para>In the case when a previously-reconciled transaction is accidentally de-reconciled, you
@@ -742,12 +749,15 @@
       </screenshot>
 
       <para>The two panes called <guilabel>Funds In</guilabel> and
-      <guilabel>Funds Out</guilabel>, lists all the unreconciled transactions that belongs to the account
-      that is going to be reconciled.
-      The <guilabel>R</guilabel> columns show whether the transactions have been reconciled.</para>
+      <guilabel>Funds Out</guilabel>, list all the unreconciled transactions that belongs to the account
+      that is going to be reconciled. The <guilabel>R</guilabel> columns indicates whether the transactions have
+      been selected to be reconciled. <application>&app;</application> tries to match transactions consistent with the date
+      range for the reconciliation and will initially check any transactions it can match.</para>
 
       <para>Now, examine each item on the bank statement, and look for the
-      matching item in the <guilabel>Reconcile</guilabel> window.</para>
+      matching item in the <guilabel>Reconcile</guilabel> window. The dates may not match exactly as the bank
+      may record items at a different time to you. The sequence of items in the <guilabel>Reconcile</guilabel>
+      window may also not match the sequence in which you entered transactions.</para>
 
       <para>If you cannot find a transaction, then perhaps you forgot to enter it, or did not know that the transaction
       had happened. You can use the <guibutton>New</guibutton> button on the <emphasis>Toolbar</emphasis>, or the
@@ -764,13 +774,22 @@
       item, to open a register window and correct the transaction.</para>
 
       <para>If the amounts agree, click on the item in the <guilabel>Reconcile</guilabel> window.
-      A check mark wil appear in the <guilabel>R</guilabel> column aside the selected transaction.
+      A check mark will appear in the <guilabel>R</guilabel> column aside the selected transaction.
       <application>&app;</application> will automatically update the amounts in the lower right summary pane.</para>
-
+      
+      <para> You may also find transactions you have entered into <application>&app;</application> which do not appear
+      in the statement but are shown in the reconcile window. If these appear within the date range being checked, then
+      it is likely they have been entered with an incorrect date. If the correct date is before the start of the date range
+      being reconciled, then correcting it will produce an error in any previous reconciliations which include the
+      transaction and any reconciliations forward from there. These previous periods will have to be corrected and reconciled again
+      before completing the reconciliation currently being carried out. Transactions which have dates after the date range
+      being reconciled may also appear in the <guilabel>Reconcile</guilabel> window. Ensure that these are not checked unless
+      they do appear in the statement.
+      </para>
       <tip>
         <para>You can use the <keycap>up</keycap>/<keycap>down</keycap> arrow keys to scroll to the item, the
         <keycap>space</keycap> key to mark the item as reconciled and the <keycap>Tab</keycap>
-        key to switch panes.</para>
+        key to switch panes. If using a mouse, click on the checkbox to toggle it.</para>
       </tip>
 
       <para>You then repeat this for each item that appears on the bank
@@ -782,7 +801,7 @@
        either pane by clicking on a transaction in the required pane then clicking 
        <keycap>Ctrl-A</keycap> followed by <keycap>space</keycap>. This will toggle 
        the reconcile status of all transactions in the pane to either checked or 
-       unchecked state. This procedure can be repeated to achieve the desired status 
+       unchecked state. You may also use the This procedure can be repeated to achieve the desired status 
        for the transactions in the pane.</para>
      </tip>
 
@@ -792,8 +811,16 @@
       may be incorrect in <application>&app;</application>. (Or, less likely, the bank may have made an
       error.)</para>
 
-      <note><para>Under some circumstances, it may be difficult or impossible to determine why an account will not reconcile. If you are unable to correct the discrepancy between your books and a statement, <application>&app;</application> includes a <guibutton>Balance</guibutton> button on the <emphasis>Toolbar</emphasis> that will automatically create a balancing entry for you in the amount that cannot be reconciled.</para>
-          <para>To use this, carry out the full reconciliation (marking all transactions that you can identify) and then click this button. <application>&app;</application> will create a balancing entry for the remaining discrepancy that uses the <emphasis>Special Accounts:Orphan-XXX</emphasis> account (where "XXX" represents your currency). The Reconcile window will close; re-opening it will allow you to check the newly-created balancing entry and finish the process.</para></note>
+      <note>
+        <para>Under some circumstances, it may be difficult or impossible to determine why an account will not reconcile. 
+        If you are unable to correct the discrepancy between your books and a statement, <application>&app;</application> includes
+        a <guibutton>Balance</guibutton> button on the <emphasis>Toolbar</emphasis> that will automatically create a balancing entry
+        for you in the amount that cannot be reconciled.</para>
+        <para>To use this, carry out the full reconciliation (marking all transactions that you can identify) and then click this
+        button. <application>&app;</application> will create a balancing entry for the remaining discrepancy that uses the 
+        <emphasis>Special Accounts:Orphan-XXX</emphasis> account (where "XXX" represents your currency). The Reconcile window will 
+        close; re-opening it will allow you to check the newly-created balancing entry and finish the process.</para>
+      </note>
 
       <para>When you have marked off all the items on the bank statement and the difference is 0.00, press the <guibutton>Finish</guibutton> button on the <emphasis>Toolbar</emphasis> or
       select <menuchoice><guimenu>Reconcile</guimenu><guimenuitem>Finish</guimenuitem></menuchoice> from the menu.
@@ -801,9 +828,9 @@
       In the register window, the <guilabel>R</guilabel> field of the reconciled transactions will
       change to <emphasis>y</emphasis>.</para>
 
-      <para>In this case, we have not received all the information yet, so we
-      simply press the <guibutton>Postpone</guibutton> button, so we can continue at
-      a later stage. Observe that the <guilabel>R</guilabel> column indicates we cleared (<emphasis>c</emphasis>)
+      <para>Where all the information is not yet available to complete the reconciliation, we can
+      press the <guibutton>Postpone</guibutton> button, so we can complete the reconciliation at
+      a later time. Observe that the <guilabel>R</guilabel> column indicates we cleared (<emphasis>c</emphasis>)
       two transactions. They have not been reconciled yet, but we have
       verified these two transactions so they have been marked as cleared. If
       you look at the <emphasis>Statusbar</emphasis> at the bottom of the account register, you
@@ -825,6 +852,44 @@
           reconciliation.</para></caption>
         </mediaobject>
       </screenshot>
+    </sect3>
+    <sect3 id="txns-general-tips">
+      <title>Reconciliation problems and tips</title>
+      <para>Common reconciliation problems:
+        <itemizedlist>
+          <listitem><para> Transactions not recorded or duplicated.</para>
+          <para> If the <guilabel>Difference</guilabel> total is negative then transactions which take funds out of 
+          the account may not have been entered by you or transactions putting funds into the account may have been duplicated. If the 
+          <guilabel>Difference</guilabel> total is positive then transactions which put funds into the account may not have been entered and/or transactions
+          taking funds out of the account may be duplicated.
+          </listitem>
+          <listitem><para>Incorrect Date entered for a transaction.</para><para>If the date entered incorrectly is before the start of the period being
+           reconciled this will normally cause the Starting Balance not to agree with the Starting Balance of the statement. The transaction will normally 
+           appear unchecked in one of the panes before any of the transactions of the current period where sorted in ascending date order. Similarly if the 
+           incorrectly entered date is after the end of the current reconciliation period it will appear after any transactions from the current period 
+           when sorted in ascending date order.
+          </listitem>
+          <listitem><para>Transaction entered into the wrong account.</para><para>This can be one of the most difficult errors to locate. Accounts which appear
+           adjacent to the account you are reconciling in the account selection drop down lists are obvious candidates. Also selecting a Credit Card 
+           instead of a Bank Account or vice versa is another possibility. Payments into a Credit Card may be accidentally recorded as an Expense. If you know 
+           something about the transaction (Amount, string in the description, memo etc.), the Find Transaction dialog <!-- link to help--> may be useful to
+           locate transactions in a wrong account.</para>
+          </listitem>
+          <listitem><para>Incorrect amount entered into a transaction</para><para>Usually obvious if other details of the transaction are the same. You need to
+          be careful that you have indentified the correct transaction. </para> 
+          </listitem>
+        </itemizedlist>
+      </para>
+      <tip><para>Exercise caution when altering or deleting transactions while reconciling. If you accidentally delete a transaction you need, you can open
+        a backup file in another <application>&app;</application> instance, Use Transaction->Copy and Transaction->Paste to restore the transaction to 
+        your main file. Be careful to close the backup file in its instance before closing the main file to ensure <application>&app;</application> 
+        opens the correct file next time it is started.</para> </tip>
+        <tip><para>Rather than delete transactions, change the split so it goes to the Imbalance Account rather than the account you are reconciling. If you have
+         removed it in error, it is easy to restore. If it should have been to another account, you can redirect it there when reconciling that account. If
+         you complete all reconciliations fo all accounts for the period and you no longer need it, then you can safely delete it from the Imbalance account.</para>
+        </tip>
+        <tip><para>If you use Actions->Reset All Warnings you will get a warning before deleting.</para>
+        </tip>
     </sect3>
   </sect2>
 
