@@ -801,7 +801,7 @@
        either pane by clicking on a transaction in the required pane then clicking 
        <keycap>Ctrl-A</keycap> followed by <keycap>space</keycap>. This will toggle 
        the reconcile status of all transactions in the pane to either checked or 
-       unchecked state. You may also use the This procedure can be repeated to achieve the desired status 
+       unchecked state. You may also use the buttons in the toolbar to do this. This procedure can be repeated to achieve the desired status 
        for the transactions in the pane.</para>
      </tip>
 
