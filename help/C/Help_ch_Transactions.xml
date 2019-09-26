@@ -869,11 +869,12 @@ Author:
     <para>Imported transactions will generally be to a specific account in your account tree. In the following
             this will be referred to as the <emphasis role="bold">import</emphasis> or
             <emphasis role="bold">base</emphasis> account. It may or may not be
-            specified in the data being imported depending on the import format. It is usually the first split
-            of a transaction being imported.
+            specified in the data being imported depending on the import format. It is usually the account debited
+            or credited by the first split of a transaction being imported.
     </para>
-    <para>All transactions will also need to have a <emphasis role="bold">destination</emphasis> account for
-            any other splits associated with the tansaction. These may or may not be supplied in the imported data,
+    <para>A transaction's other splits will also need to have an account assigned to them that is commonly referred to as a
+            <emphasis role="bold">destination</emphasis> or <emphasis role="bold">transfer</emphasis> account.
+            These may or may not be supplied in the imported data,
             depending upon the data source and the format of the data. If it is not, <application>&appname;</application>
             may be able to assign an account on the basis of the previous import history by matching infomation in
             the imported data to data associated with previous account assignments in the importer. The user may
@@ -889,20 +890,21 @@ Author:
         commonly used for the import and export of data to and from  spreadsheets:
       </para>
       <itemizedlist>
-        <listitem><para><emphasis role="bold"><link linkend="trans-import-qif">QIF</link></emphasis>
-             (.qif) Quicken Interchange format - import data from Quicken financial software;</para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="trans-import-ofx">OFX/QFX</link></emphasis>
-             (.ofx,.qfx) Open Financial eXchange format (QXF is an Intuit/Quicken proprietary version of OFX);
+        <listitem><para><emphasis role="bold"><link linkend="trans-import-qif">QIF</link></emphasis>: (.qif) 
+          Quicken Interchange format - import data from Quicken financial software;</para></listitem>
+        <listitem><para><emphasis role="bold"><link linkend="trans-import-ofx">OFX/QFX</link></emphasis>: (.ofx,.qfx)
+          Open Financial eXchange format (QXF is an Intuit/Quicken proprietary version of OFX);
         </para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="trans-import-csv">CSV</link></emphasis>
-             (.csv)  Comma Separated Values;</para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="trans-import-MT940-MT942-DTAUS">MT940</link></emphasis>
-               SWIFT MT940 Customer End of Day Statement Message;</para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="trans-import-MT940-MT942-DTAUS">MT942</link></emphasis>
-               SWIFT MT942 Customer Intra-day Transaction Report;</para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="trans-import-MT940-MT942-DTAUS">DTAUS</link></emphasis>
-             (.DTAUS)  Banking data Exchange File;</para></listitem>
+        <listitem><para><emphasis role="bold"><link linkend="trans-import-csv">CSV</link></emphasis>: (.csv)
+          Comma Separated Values;</para></listitem>
+        <listitem><para><emphasis role="bold"><link linkend="trans-import-MT940-MT942-DTAUS">MT940</link></emphasis>: SWIFT
+          MT940 Customer End of Day Statement Message;</para></listitem>
+        <listitem><para><emphasis role="bold"><link linkend="trans-import-MT940-MT942-DTAUS">MT942</link></emphasis>: SWIFT
+          MT942 Customer Intra-day Transaction Report;</para></listitem>
+        <listitem><para><emphasis role="bold"><link linkend="trans-import-MT940-MT942-DTAUS">DTAUS</link></emphasis>: (.DTAUS)
+          Banking data Exchange File;</para></listitem>
       </itemizedlist>
+      <note><para>The file extensions indicated above are not mandated and may or may not be used to identify the format of a fle.</para></note>     
       <para>These import methods can be accessed from the <guisubmenu>Import</guisubmenu> submenu
             of the main menu <guimenu>File</guimenu> entry, along with methods for importing
             other types of data. Select the appropriate entry in the <guisubmenu>Import</guisubmenu>
@@ -919,13 +921,15 @@ Author:
       </para>
       <sect3>
         <title>To import QIF files:</title>
-        <para>Select
-          <menuchoice>
-            <guimenu>File</guimenu>
-            <guisubmenu>Import</guisubmenu>
-            <guimenuitem>Import QIF...</guimenuitem>
-          </menuchoice>
-          from the menu to open the QIF Import dialog box illustrated below.
+        <para>Select 
+          <emphasis role="bold">
+            <menuchoice>
+              <guimenu>File</guimenu>
+              <guisubmenu>Import</guisubmenu>
+              <guimenuitem>Import QIF...</guimenuitem>
+            </menuchoice>
+          </emphasis>
+          from the menu to open the QIF Import dialog window illustrated below.
         </para>
         <figure pgwide="1">
           <title>The Import QIF Files Assistent</title>
@@ -1082,9 +1086,10 @@ Author:
 
     <sect2 id="trans-import-ofx">
       <title>Import OFX/QFX</title>
-      <para><guimenu>File</guimenu>-><guisubmenu>Import</guisubmenu>-><guimenuitem>Import OFX/QFX transactions</guimenuitem>
-        opens a file selection dialog. Navigate to the file you wish to import, select a file with
-        the appropriate extension (.ofx  or .qfx), then press the <emphasis role="bold"><guibutton>Import</guibutton></emphasis> button.</para>
+      <para><emphasis role="bold"><menuchoice><guimenu>File</guimenu>-><guisubmenu>Import</guisubmenu>-><guimenuitem>Import OFX/QFX transactions</guimenuitem></menuchoice></emphasis>
+        opens a file selection dialog. Navigate to the file you wish to import, select a file with 
+        the appropriate format or extension (.ofx  or .qfx), then press the <emphasis role="bold"><guibutton>Import</guibutton></emphasis> button.
+      </para>
       <para><application>&appname;</application> then opens an Account Selection dialog to select an account in your CoA to match to an account name in the import file. Select
         the appropriate account from the account tree and press the <emphasis role="bold"><guibutton>OK</guibutton></emphasis> button. On subsequent import of files from the
         same source account, the mapped <application>&appname;</application> account is remembered and the account selection dialog is not displayed.
@@ -1846,7 +1851,7 @@ Author:
         </itemizedlist>
       </para>
       <para>The <emphasis role="bold"><guilabel>Non-Bayesian</guilabel></emphasis> matcher displays the same first three columns as the Bayesian matcher having the same usage.
-        It does not store data on the frequency with which a particular token is associated with the assignement of a given
+        It does not store data on the frequency with which a particular token is associated with the assigement of a given
         transfer/destination account. It has an additional column which specifies the type of the imported data process in
         which the assignment occurred.It has the following columns:
         <itemizedlist>
