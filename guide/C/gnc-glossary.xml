@@ -19,7 +19,7 @@
 
 <glossentry id="gnc-gl_account">
   <glossterm>Account</glossterm>
-  <glossdef>
+  <glossdef id="gnc-gl_account-def">
     <para>An account keeps track of what you own, owe, spend or receive.</para>
   </glossdef>
 </glossentry> 
