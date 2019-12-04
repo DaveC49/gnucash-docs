@@ -24,78 +24,64 @@
           specified in the data being imported, depending on the import format. It is usually the first split
           of a transaction being imported.
   </para>
-  <para>All transactions will also must have a <emphasis role="bold">destination</emphasis> account for
-          at least matching splits. This may or may not be supplied in the imported data. If it is not,
-          an account can be assigned on the basis of the previous import history by matching to infomation in
-          the imported data. The user may always over-ride this assignment.
-  </para>
-  <para>Multi-split data previously exported from GnuCash may have both the import and destination accounts
-          for transaction splits specified in the data file.
-  </para>
-  <sect2>
-    <title>File Import Formats</title>
-    <para>Gnucash allows transactions to be imported in the following formats:</para>
+  <sect1 id="importing-coa-export-format">
+    <title> Chart of Accounts Export Format</title>
+    <para>The CSV field s for the Chart of Accounts Export is:
       <itemizedlist>
-        <listitem><para><emphasis role="bold"><link linkend="importing-qif">QIF</link></emphasis>
-             (.qif) Quicken Interchange format - import data from Quicken financial software;</para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="importing-ofx">OFX/QFX</link></emphasis>
-             (.ofx,.qfx) Open Financial eXchange format (QXF is an Intuit/Quicken proprietary version of OFX);
-        </para></listitem>
-        <listitem><para><emphasis role="bold"><link linkend="importing-csv">CSV</link></emphasis>
-             (.csv)  Comma Separated Values;</para></listitem>
-         <listitem><para><emphasis role="bold"><link linkend="importing-mt940">MT940</link></emphasis>
-              MT940</para></listitem>
-          <listitem><para><emphasis role="bold"><link linkend="importing-mt942">MT942</link></emphasis>
-               MT942</para></listitem>
-           <listitem><para><emphasis role="bold"><link linkend="importing-dtaus">DTAUS</link></emphasis>
-                DTAUS</para></listitem>
+        <listitem><emphasis role="bold">type</emphasis><para>: The type of the account including specialized subtypes
+          of the basic top-level accounts Assets, Liabilities, Equity,Income and Expense. One of:
+          <itemizedlist>
+            <listitem><emphasis role="bold">ASSET</emphasis><para>: Asset account;</para></listitem>
+            <listitem><emphasis role="bold">BANK</emphasis><para>: Specialized asset account;</para></listitem>
+            <listitem><emphasis role="bold">CASH</emphasis><para>: Specialized asset account;</para></listitem>
+            <listitem><emphasis role="bold">STOCK</emphasis><para>: Specialized asset account for tradeable commodities;</para></listitem>
+            <listitem><emphasis role="bold">MUTUAL FUND</emphasis><para>: Specialized asset account for mutual funds;</para></listitem>
+            <listitem><emphasis role="bold">RECEIVABLE</emphasis><para>: Specialized asset account for Business features;</para></listitem>
+            <listitem><emphasis role="bold">LIABILITY</emphasis><para>: Liability Account;</para></listitem>
+            <listitem><emphasis role="bold">CREDIT CARD</emphasis><para>: Specialized liability account;</para></listitem>
+            <listitem><emphasis role="bold">PAYABLE</emphasis><para>: Specialized liability account for Business features;</para></listitem>
+            <listitem><emphasis role="bold">EQUITY</emphasis><para>: Equity account;</para></listitem>
+            <listitem><emphasis role="bold">EXPENSE</emphasis><para>: Expense account - temporary equity account;</para></listitem>
+            <listitem><emphasis role="bold">INCOME</emphasis><para>: Income account - temporary equity account.</para></listitem>
+         </itmeizedlist></para>
+        </listitem>
+        <listitem><emphasis role="bold">full-name</emphasis><para>: Full account tree path to the account;</para>
+        </listitem>
+        <listitem><emphasis role="bold">name</emphasis><para>: Name of the account;</para>
+        </listitem>
+        <listitem><emphasis role="bold">code</emphasis><para>: User specified code used to identify the account;</para>
+        </listitem>
+        <listitem><emphasis role="bold">Description</emphasis><para>: Description of the account;</para>
+        </listitem>
+        <listitem><emphasis role="bold">color</emphasis><para>: rgb color code of a color
+            displayed in the background of the account tab or on the tab for the account register- format "rgb(nnn,nnn,nnn) 0 &lt;= nnn &lt;= 255";
+          </para>
+        </listitem>
+        <listitem><emphasis role="bold">notes</emphasis><para>: Notes on account usage;</para>
+        </listitem>
+        <listitem><emphasis role="bold">commoditym</emphasis><para>: Currency or commodity symbol;</para>
+        </listitem>
+        <listitem><emphasis role="bold">commodityn</emphasis><para>: Whether the previous column is a CURRENCY or the stock exchange name if a COMMODITY;</para>
+        </listitem>
+        <listitem><emphasis role="bold">hidden</emphasis><para>: Whether the account is hidden or displayed
+            in the Accounts tab and drop down lists of accounts in account selection dialogs (T/F);
+          </para>
+        </listitem>
+        <listitem><emphasis role="bold">tax</emphasis><para>: Whether the account is a target account for tax table calculations (T/F);</para>
+        </listitem>
+        <listitem><emphasis role="bold">placeholder</emphasis><para>: Whether the account is a placeholder account (T/F).</para>
+        </listitem>
       </itemizedlist>
-
-    <para>These import methods can be accessed from <menuchoice><guimenu>File</guimenu>
-        <guisubmenu>Import ...</guisubmenu></menuchoice>.</para>
-  </sect2>
-
-  <sect2 id="importing-matcher">
-    <title>Import Matcher</title>
-    <para>Several of the Import Assistants use an Import Matcher to implement a Bayesian approach to assign
-        destination accounts, if such accounts are not specified in
-        the imported data, to each imported transaction based on the previous import history of the import account.
-        It also attempts to match the transactions being imported to any existing transactions
-        based on the date and the description fields<!-- FIXME add any other fields used in matching -->.
+      The Chart of Accounts import process is controlled by a simple dialog. After selecting a file to import,
+      the only options are the number of header rows to skip and  to choose the separator if something other
+      than a comma was used on export. A sample of the first few rows to be formatted is displayed using the options
+      selected above. If all is correct step through to the <emphasis role="bold"><guilabel>Import Now</guilabel></emphasis>
+      step and click <emphasis role="bold"><guibutton>Apply</guibutton></emphasis> button.
     </para>
-    <para>Transaction rows which match existing transactions already in the import account are flagged not to be imported. They
-      will have a light green background and the A and U+R checkboxes will be unchecked and the R checkbox will be
-      checked. To override and import the transaction, check the A checkbox. The U and R boxes will be unchecked
-      automatically. The reliability of the match is indicated by a bar display in the Info column. If a destination
-      account for the second split is assigned by the matcher if will be appended to the info column.
-    </para>
-    <para>Transaction rows which do not match existing transactions in the import account, for which an assignment
-      of a destination account cannot be made on the basis of the previous import history to the account, will be
-      displayed with an orange-yellow background and the A box will be checked and U+R and R unchecked. A destination
-      account must be specified for these transactions.
-    </para>
-   <sect3><title>Assign a Destination Account to a Single Transaction</title>
-      <para>The currently selected row is selected by Left-clicking it. It is displayed with a mid dark green background.</para>
-      <para><emphasis role="bold">Double click</emphasis> on a row. This will select it and open an Account Selection
-            dialog. Select the desired destination account in the dialog and click <guilabel>OK</guilabel>. The row
-            background will change to a light green and the assigned destination account will be displayed
-            in the Info column.
-      </para>
-      <para>or alternatively, <emphasis role="bold">Left-click</emphasis> on a row to select it followed by a
-         <emphasis role="bold">Right-click </emphasis>to bring up a popup menu then select
-        "Assign a transfer account" to display the Account Selection dialog, select the destination account and
-         click the <guilabel>OK</guilabel> button.
-      </para>
-    </sect3>
-    <sect3>
-      <title>Assign a Destination Account to Multiple Transactions</title>
-      <para>Sometimes you will have several transactions which will have the same destination account. Gnucash
-            allows you to select multiple transactions and apply the same destination account to all transactions
-            in the selection.
-      </para>
-      <para>Rows in a selection are displayed with a mid dark green background.</para>
-      <para>Multiple rows may be selected to have the same destination account assigned to them.</para>
-      <para>To select rows either:</para>
+  </sect1><!-- id="importing-coa-export-format" -->
+  <sect1 id="importing-minimal">
+    <title>Importing a Minimal CSV Data Set</title>
+    <para>For CSV data to be imported into <application>&app;</application> the data file must contain at least the following fields:
       <itemizedlist>
         <listitem><para><emphasis role="bold">Left click</emphasis> on first row and then
         <emphasis role="bold">Ctrl-Left click</emphasis> on other rows to add to the selection or</para></listitem>
@@ -256,19 +242,11 @@
             you have loaded by mistake.</para>
 
             <itemizedlist>
-              <listitem>
-                <para>The top panel shows the list of <guilabel>QIF Files</guilabel>
-                you have loaded.</para>
+              <listitem><emphasis role="bold">+ve</emphasis><para>: Debit to the account For an Asset or Expense type account this is an increase in
+                the balance of the account and for Liability, Equity and Income type accounts it is a decrease in the account balance;</para>
               </listitem>
-
-              <listitem>
-                <para>The <guibutton>Load another file</guibutton> button takes you
-                back to the previous screen to load another <acronym>QIF</acronym> file.</para>
-              </listitem>
-
-              <listitem>
-                <para>The <guibutton>Unload selected file</guibutton> button allows you to
-                select a file from the top panel and remove it from the list.</para>
+              <listitem><emphasis role="bold">-ve</emphasis><para>: Credit to the account For an Asset or Expense type account this is an decrease in
+                the balance of the account and for Liability, Equity and Income type accounts it is a increase in the account balance;</para>
               </listitem>
             </itemizedlist>
 
@@ -560,116 +538,440 @@
           Import Matcher</link> section (common to both OFX/QFX and CSV import formats) following the Import CSV
           section to continue the import process.
     </para>
-  </sect2>
-  <sect2 id="importing-csv">
-    <title>Import CSV</title>
-    <para>Clicking on <emphasis role="bold">Import CSV</emphasis> in the Import menu will bring up the Import Assistant dialog. The first step brings up a file selection
-          dialog. Navigate to the location where the file you wish to import is located and select the file to import then click the
-          <emphasis role="bold">OK</emphasis> button.
+    <para> The following is a sample of the data in a minimal CSV data set with no account to import specified and with column headers in the first row:
+    <literallayout>
+Date,Description,Amount Num.
+12/09/2016,Opening Balance-Checking,15000
+12/09/2016,Salary ,4000
+13/09/2016,Supermarket,-153.3
+14/09/2016,Topup cash in wallet,-50
+16/09/2016,1000 Shares Acme Copr All Ord,-13254.95
+20/09/2016,Supermarket,-123.4
+20/09/2016,Transfer of Funds from Singapore Saving account,10000
+23/09/2016,Loan Repayment,-1540
+24/09/2016,Credit card payment,-1500
+26/09/2016,Supermarket,-115
+10/10/2016,Supermarket,-123.65
+12/10/2016,Salary ,4000
+15/10/2016,Pharmacy,-11.5
+30/10/2016,Sale 500 shares AcmeCorp All Ord,7068.75
+    </literallayout>
     </para>
-    <para>The next window will allow you to set parameters for the importing of the file. All widgets have tooltips which explain what
-          the setting affects and the options for the setting.
-    </para>
-    <sect3 id="importing-csv-save">
-        <title>Load and Save Settings</title>
-        <para>If this import is a regular occurrence, once you have set the other import paramters, you can save these settings by typing
-              in a setting name in the <emphasis role="bold">Load and Save Settings Entry</emphasis> combo box and pressing the <emphasis role="bold">Save</emphasis> button just to the right of the box.
-              Previously defined settings can be retrieved by selecting the appropriate setting name from the dropdown list activated by
-              the down arrow at the right end of the text box. The trash can button to the right of the Save button can be used to remove
-              the settings selected from the drop down list for the box. The settings group <emphasis role="bold">"GnuCash Export Settings"</emphasis> define a setting
-              group for the export and reimport of GnuCash transaction data - use this if importing data previously exported from GnuCash.
-        </para>
-    </sect3>
-    <sect3>
-      <title>Account</title>
-      <para>This combo box allows you to select the base or import account into which the transactions will be imported.  It may be left unset
-            if the imported data contains a column listing the accounts associated with each split or the import data
-            specifies the account for first split of the transaction.</para>
-    </sect3>
-    <sect3>
-      <title>File Format</title>
-      <para>This section allows you to define whether the file has:
-      </para>
+    <para>
+      <figure pgwide="1">
+        <title>Import Preview pane - Minimal data import</title>
+        <screenshot id="import-preview">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import_Preview_minimal_guide.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import_Preview_minimal_guide.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      The screenshot above shows the Import Preview pane after opening the file containing the above data.
+      The circled setting are those that must be set to import this data:
       <itemizedlist>
-        <listitem>
-          <para><emphasis role="bold">Fixed width columns</emphasis> Selecting this radio button will allow you to define
-               column boundaries by double clicking at the appropriate positions in the sample records displayed in the
-               panel below. Single clicking in a column will narrow, widen or merge the column.
-          </para>
+        <listitem><emphasis role="bold">Account</emphasis><para>: As no import account is specified in the data
+          set this must be set to the account in the <application>&app;</application> account tree into which
+          you wish to import the data. Here it is set to Assets:CurrentAssets:Checking Account;</para>
         </listitem>
-        <listitem>
-          <para><emphasis role="bold">Separators</emphasis> Selecting this radio button will allow you to define characters
-                which will be used to distinguish columns in the input file. The default is comma separated however spaces,
-                tabs,colons or semicolons or any combination of them may be used to separate columns in the input file by
-                selecting the appropriate check boxes. You may also define custom separators by typing the required characters
-                into the text box and selecting the <emphasis role="bold">Custom</emphasis> checkbox. This may be used in combination with any of the
-                predefined separators.
-          </para>
+        <listitem><emphasis role="bold">Date Format</emphasis><para>: Set the date format to the convention used
+          in the data file. This file was created with the day-month-year format common in much of Europe, South
+          and central America, South East Asia and Australia. In the US month-day-year is more commonly used. Canada
+          China, Korea, Japan, Hungary and Lithuania use a year-month-day format (ISO 8601), generally better for
+          alphanumerical sorting;</para>
         </listitem>
-        <listitem>
-          <para><emphasis role="bold">Multi-split</emphasis> Selecting this check box allows the splits for a single transaction
-               to be defined on consecutive lines within the file with each line defining a single split. If not selected each
-               line is assumed to contain the information for a single transaction including one or two splits.
-          </para>
+        <listitem><emphasis role="bold">Leading Lines to SKip</emphasis><para>: Set at +1 to skip importing the
+          first line which contains column header names. In the preview pane the row containg the header information
+          is displayed with the text strikethrough attribute;</para>
+        </listitem>
+        <listitem><emphasis role="bold">Date</emphasis><para>: Assigning the Date column header to the first column
+          assigns this column to be imported as the transaction date. Note the header information in the file is not
+          matched automatically, it has to be assigned to this column by selecting the data field for the transaction
+          from the drop down list which is displayed by clicking on the boxes, initially labelled None, with the downward
+          arrow to the right of the box;</para>
+        </listitem>
+        <listitem><emphasis role="bold">Description</emphasis><para>: As for the Date the Description column header
+          must be applied to the column which contains the transaction description information;</para>
+        </listitem>
+        <listitem><emphasis role="bold">Deposit</emphasis><para>: This header is applied to the column containing the
+          information about the amount of the transaction. Internally <application>&app;</application> recognises
+          positive amounts as debit entries and negative amounts as credit entries. If your data source uses an
+          alternative convention you may have to assign the <emphasis role="bold">Withdrawal</emphasis> column
+          heading to this column instead.  Some sources may use separate columns for debit and credit entries in
+          which case the Deposit and Withdrawal headers should be assigned to the appropriate data column.</para>
+          <note><para> A credit in a record from the bank for your savings or check account represents an increase
+            in the balance. It is recorded as a credit because for the bank, your account is a liability whereas in
+            your accounts in <application>&app;</application> your savings or credit account is an asset and is
+            increased by a debit entry.</para>
+          </note>
         </listitem>
       </itemizedlist>
-    </sect3>
-    <sect3>
-      <title>Miscellaneous</title>
-      <para>The miscellaneous settings allow you to set:
-      </para>
-      <itemizedlist>
-        <listitem><para><emphasis role="bold">Encoding</emphasis>This is usually the UTF-8 variant for your locale;</para></listitem>
-        <listitem><para><emphasis role="bold">Date Format</emphasis> This does not default to the Locale setting so check it matches the data you are importing;</para></listitem>
-        <listitem><para><emphasis role="bold">Currency Format</emphasis>;</para></listitem>
-        <listitem><para><emphasis role="bold">Leading Lines to Skip</emphasis>;</para></listitem>
-        <listitem><para><emphasis role="bold">Trailing Lines to Skip</emphasis>;</para></listitem>
-        <listitem><para><emphasis role="bold">Skip alternate lines</emphasis>;</para></listitem>
-        </itemizedlist>
-       <para>to match the settings for the file you are importing. Tooltips may also contain information on the setting and options.</para>
-    </sect3>
-    <sect3>
-      <title>Import Panel</title>
-      <para>The import panel shows the data being imported as it is interpreted using the settings chosen to define columns and formats.
-          The dropdown lists in the headers for each column of the import allow you to associate a specific column in the imported data
-          with a specific field in the display of a transaction in an account register. At a minimum to import data, columns in the
-          imported data containing the following information <emphasis role="bold">must</emphasis> be specified:
-      </para>
-      <itemizedlist>
-        <listitem><para><emphasis role="bold">Date </emphasis>of transaction;</para></listitem>
-        <listitem><para><emphasis role="bold">Account</emphasis> into which transaction is to be imported (or alternatively set the base account as above);</para></listitem>
-        <listitem><para><emphasis role="bold">Description</emphasis> of the transaction;</para></listitem>
-        <listitem><para><emphasis role="bold">Deposit or Withdrawal</emphasis> column.</para></listitem>
-      </itemizedlist>
-      <para>The <emphasis role="bold">Skip Errors</emphasis> check box will skip trying to import any rows with errors in matching the columns.
-      </para>
-      <para>When you are happy with all the import settings, <link linkend="importing-csv-save">save</link> them
-           if you will use the same settings again, then press the <emphasis role="bold">Next</emphasis> button.
-          This will bring up a window which allows you to map the accounts identified in the account column (Account Id) with accounts
-          in the GnuCash account tree (Account name). Double click on a row to bring up a dialog to select the matching GnuCash account.
-          When you have selected a match for all accounts, click on the <emphasis role="bold">Next</emphasis> button.
-      </para>
-      <para>The Transaction Information panel allows review of data entry settings so far.
-      </para>
-      <para>Clicking on Match Transactions will then bring up the main <link linkend="importing-matcher">Import Matcher</link>
-            window described in the next section.
-      </para>
-    </sect3>
-  </sect2>
-
-  <sect2 id="importing-mt940">
-    <title>Import MT940</title>
-    <para>Use this option to import MT940 data.</para>
-  </sect2>
-
-  <sect2 id="importing-mt942">
-    <title>Import MT942</title>
-    <para>Use this option to import MT942 data.</para>
-  </sect2>
-
-  <sect2 id="importing-dtaus">
-    <title>Import DTAUS</title>
-    <para>Use this option to import DTAUS data.</para>
-  </sect2>
-</sect1>
+    </para>
+    <para>
+      <figure pgwide="1">
+        <title>Match Transactions pane - Minimal data import</title>
+        <screenshot id="import-matcher">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-match-transactions_1.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-match-transactions_1.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      The Match Transactions pane displaystham matching information. In this case the first seven transactions
+      have been matched to existing transactions in the Checking Account in the data file opened in <application>&app;</application>.
+      This is indicated by the R checkbox being checked, the background of the rows being green and a high match score with the three red bars, the two yellow bars and all
+      three green bars being displayed along with  "Reconcile (auto) match" displayed in the Info column.
+    </para>
+    <note><para>Although the term reconcile is used, unless the imported data explicitly contains a reconciled data field, the imported
+      record is marked as cleared ("c") not reconciled ("y") when imported.</para></note> <!--FIXME need to check this behavior and correct if necessary -->
+    <para>The next two transactions with the U+R checkbox checked are also matched to two existing transactions but in this case
+      the dates had ben altered to not match exactly. These are marked for Update to adjust the dates recorded in <application>&app;</application>
+      to the values of the imported transaction. This is indicated by the U+R checkbox being checked, the green background to the rows and only two green bars indicating a slightly
+      poorer match score and the "Update and reconcile (auto) match" message in the Info column. Double clicking on either of these transactions
+      will display the Match Picker dialog.
+      <figure pgwide="1">
+        <title>Match Transactions pane - Minimal data import</title>
+        <screenshot id="import-match-picker">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-match-picker_1.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-match-picker_1.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      The information for the imported transactions first split, in this case the only one, is displayed in the upper panel of the
+      dialog and the splits for any matching transactions in the Checking account in  the <application>&app;</application> data file
+      are displayed in the lower panel ( in this case only one) with the selected match highlighted. It is clear that the only
+      difference is the date and it is only out by one day. The Import Matcher searches transactions within a 42 day/6 week interval
+      either side of the import date. It is possible to have matches for monthly payments for a previous payment so it pays to check
+      that the record to be updated is not a previous such payment. If you feel another displayed transaction in the lower panel is a better
+      match, you can select it and then click OK to returm to the Import Matcher. If you do not want to update the information but do not
+      wish to import the transaction record you can check the "R" checkbox. If you decide the transaction to be imported does not
+      match an existing record at all you could check the "A" checkbox to mark the transaction to be imported.
+    </para>
+    <para>
+      The last five transactions do not match any existing transactions. The "A" checkbox is checked to indicate they are to be imported.
+      The gold background indicates that an account for the second split of the transaction was not specified in the import data and
+      in this case as no data had been imported previously to this account, there was no previous matching information to automatically assign
+      a transfer account to the transaction.
+    </para>
+    <para>The first two of these transactions are for items in the same expense category. Multiple rows can be selected by a
+      <emphasis role="bold"><keycombo><keycap>Ctrl</keycap> <mousebutton>Left</mousebutton></keycombo> click</emphasis> on each row to select them
+      (or <emphasis role="bold"><keycombo><keycap>Ctrl</keycap> <mousebutton>Left</mousebutton></keycombo> click</emphasis> and drag
+      or <emphasis role="bold"><keycombo><keycap>Ctrl</keycap> <mousebutton>Left</mousebutton></keycombo> click</emphasis> on one row followed by a
+      <emphasis role="bold"><keycombo><keycap>Shift</keycap> <mousebutton>Left</mousebutton></keycombo>click</emphasis> on another row to select all
+      rows between them). Once the desired rows are selected a
+      <emphasis role="bold"><mousebutton>Right</mousebutton> click</emphasis> will bring up a popup menu. A <emphasis role="bold"><mousebutton>Left</mousebutton></keycombo> click</emphasis> on
+      the menu item will bring up an accont selection dialog and apply the selected account as the transfer account for the second
+      split of the selected imported transactions.
+    </para>
+    <para>A <emphasis role="bold">double <mousebutton>Left</mousebutton> click</emphasis> on a single transaction row will select a single row and bring up
+      the account selection dialog and assign the selected account to that transaction.
+    </para>
+    <para>
+      <figure pgwide="1">
+        <title>Match Transactions pane - transfer accounts assigned and ready to import</title>
+        <screenshot id="import-match-picker">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-match-transactions_2.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-match-transactions_2.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      The background for all rows is now a light green indicating that they are ready to be imported into the <application>&app;</application>
+      register specified. If you check the register you will see the transactions to be imported already are displayed in the register, however
+      they do not have the transfer account displayed and they are not yet stored in the data file. You may have to click somewhere in the
+      register to display the transactions to be imported.
+      <figure pgwide="1">
+        <title>Example of the display of a transaction in the register while the import Matcher is still open</title>
+        <screenshot id="import-register-preimport">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-register-after-match-before-import.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-register-after-match-before-import.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+       This can can be useful for identifying duplicated transactions in the import. When
+      you are happy that you have correctly configured the import, <emphasis role="bold"><mousebutton>Left</mousebutton> click</emphasis> on the
+      <emphasis role="bold"><guibuton>Apply</guibutton></emphasis> to import the transactions. After the import has completed the transaction above
+      now has the transfer account assigned.
+      <figure pgwide="1">
+        <title>The same transaction displayed after the import process has completed</title>
+        <screenshot id="import-register-postimport">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-register-after-match-after-import.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-register-after-match-after-import.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+    </para>
+    <para>The major difficulty with the Simple Layout export and importing in the single line mode can be illustrated by examining the transaction for
+      the sale of stock. The original transaction shown here in the Acme Corp stock account register
+      <figure pgwide="1">
+        <title>Original stock transaction prior to export in single line mode</title>
+        <screenshot id="">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-stock-reg-original.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-stock-reg-original.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      had splits for Fees and Commisions and a sale price specified whereas the imported transaction in single line mode is unable to provide this information
+      on import.
+      <figure pgwide="1">
+        <title>Stock transaction after importing in single line mode.</title>
+        <screenshot id="import-stockreg-singleline">
+          <mediaobject>
+            <imageobject role="html">
+              <imagedata fileref="figures/import-stock-reg-after-single-line-import.png" format="PNG" srccredit="David Cousens" width="510"></imagedata>
+            </imageobject>
+            <imageobject role="fo">
+                        <imagedata fileref="figures/import-stock-reg-after-single-line-import.png" format="PNG" srccredit="David Cousens"></imagedata>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+      This has to be corrected manually where the file to be imported does not contain the data. An alternative is to use the multi-line multisplit format described in the next section.
+  </sect1>
+  <sect1 id="importing-multiline">
+    <title>Importing GnuCash Export Format Multi-line Multi-split CSV Data</title>
+    <para>In this example we are going to import the same data previously imported as a minimal data set using
+      the data exported in the GnuCash Export Format multiline multisplit data format into new data file. The
+      GnuCash Export data Format is described in detail in the &app;Help Manual Section on exporting transaction data.
+    </para>
+    <para>The previously exported CSV data to be imported into the new file is:
+      <literallayout>
+Date,Transaction ID,Number,Description,Notes,Commodity/Currency,Void Reason,Action,Memo,Full Account Name,Account Name,Amount With Sym,Amount Num.,Reconcile,Reconcile Date,Rate/Price
+12/09/2016,dd6839ac4ae9411b911a6a1f973d4b65,,Opening Balance-Checking,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"$15,000.00","15,000.00",n,,1.00
+,,,,,,,,,Equity:Opening Balances,Opening Balances,"-$15,000.00","-15,000.00",n,,1.00
+12/09/2016,e140f32b356948a68b812a946810858d,,Salary ,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"$4,000.00","4,000.00",n,,1.00
+,,,,,,,,,Assets:Current Assets:Savings Account,Savings Account,"$1,350.00","1,350.00",n,,1.00
+,,,,,,,,,Income:Salary,Salary,"-$5,350.00","-5,350.00",n,,1.00
+13/09/2016,9b459c610196496689a526bf6772f29d,,Supermarket,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,-$153.30,-153.30,n,,1.00
+,,,,,,,,,Expenses:Groceries,Groceries,$153.30,153.30,n,,1.00
+14/09/2016,91ec1cad5b804fc49eb274a4bd1d70b8,,Topup cash in wallet,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,-$50.00,-50.00,n,,1.00
+,,,,,,,,,Assets:Current Assets:Cash in Wallet,Cash in Wallet,$50.00,50.00,n,,1.00
+16/09/2016,fd0f82af92524269aaa409ef7e2b5d60,,1000 Shares Acme Copr All Ord,,CURRENCY::AUD,,,Purchase 1000 shares Acme Corp All Ord,Assets:Current Assets:Checking Account,Checking Account,"-$13,254.95","-13,254.95",n,,1.00
+,,,,,,,Buy,Purchase,Assets:Investments:Brokerage Account:Stock:Acme Corp,Acme Corp,"1,000 ACM","1,000",n,,13.25
+,,,,,,,,Brokerage charges,Expenses:Investments:Brokerage Fees and Commissions,Brokerage Fees and Commissions,$4.95,4.95,n,,1.00
+20/09/2016,93a7be5f382948b8bb7303530a3df19b,,Supermarket,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,-$123.40,-123.40,n,,1.00
+,,,,,,,,,Expenses:Groceries,Groceries,$123.40,123.40,n,,1.00
+20/09/2016,a6fda7a9c1e34b1da03314bc61b22340,,Transfer of Funds from Singapore Saving account,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"$10,000.00","10,000.00",n,,1.00
+,,,,,,,,,Assets:Current Assets:Savings Account SGD,Savings Account SGD,"-S$9,440.20","-9,440.20",n,,1 + 2799/47201
+23/09/2016,13c2019c80af43c1afe31098cea882bc,,Loan Repayment,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"-$1,540.00","-1,540.00",n,,1.00
+,,,,,,,,,Liabilities:Loans:Mortgage Loan,Mortgage Loan,"$1,540.00","1,540.00",n,,1.00
+24/09/2016,6420a5f21edc4f558a93ca666b69f74c,,Credit card payment,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"-$1,500.00","-1,500.00",n,,1.00
+,,,,,,,,,Liabilities:Credit Card,Credit Card,"$1,500.00","1,500.00",n,,1.00
+26/09/2016,eb17c2ac66f14f5286d7e2dac806070a,,Supermarket,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,-$115.00,-115.00,n,,1.00
+,,,,,,,,,Expenses:Groceries,Groceries,$115.00,115.00,n,,1.00
+10/10/2016,90356001727f4652959068f5b21c33c1,,Supermarket,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,-$123.65,-123.65,n,,1.00
+,,,,,,,,,Expenses:Groceries,Groceries,$123.65,123.65,n,,1.00
+12/10/2016,d819158b019641699e5db081c6a2bef7,,Salary ,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"$4,000.00","4,000.00",n,,1.00
+,,,,,,,,,Assets:Current Assets:Savings Account,Savings Account,"$1,350.00","1,350.00",n,,1.00
+,,,,,,,,,Income:Salary,Salary,"-$5,350.00","-5,350.00",n,,1.00
+15/10/2016,1f2dd413a8d54983b3708d818e0478d0,,Pharmacy,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,-$11.50,-11.50,n,,1.00
+,,,,,,,,,Expenses:Medical Expenses,Medical Expenses,$11.50,11.50,n,,1.00
+30/10/2016,21da3fe590a949d882397b36bef63cd1,,Sale 500 shares AcmeCorp All Ord,,CURRENCY::AUD,,,,Assets:Current Assets:Checking Account,Checking Account,"$7,068.75","7,068.75",n,,1.00
+,,,,,,,Buy,,Expenses:Commissions,Commissions,$181.25,181.25,n,,1.00
+,,,,,,,Sell,,Assets:Investments:Brokerage Account:Stock:Acme Corp,Acme Corp,-500 ACM,-500,n,,14.5
+      </literallayout>
+    </para>
+    <para>The exported field headers are given in the first line of data. Each individual transaction record begins with a
+      data field (dd/mm/yyyy in the example - this may differ in your locale). The 7 fields between Date and Void Reason are
+      common transaction fields for all splits. These fields are blank for the subsequent splits of the transaction as
+      indicated by the leading commas on subsequent lines. The 9 fields from Action to the end of the line are associated
+      with a specific split of the transaction. The data for the first split to the account data was exported from is present
+      in the first line following the transaction common data. The subsequent lines of each transaction containing the other
+      splits are blank for the first 7 fields and only contain data for the last 9 fields. Successive commas indicate a blank
+      field in the record.  The book currency for the sample is AUD - Australian dollars).
+    </para>
+    <para>The data sample has the following transaction records in order:
+      <table frame="all" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <thead>
+            <row><entry>Transaction Number></entry><entry>Transaction Description</entry></row>
+          </thead>
+          <tbody>
+            <row><entry>1</entry><entry>opening balance transaction</entry></row>
+            <row><entry>2</entry><entry>income split to 2 accounts</entry></row>
+            <row><entry>3</entry><entry>purchase</entry></row>
+            <row><entry>4</entry><entry>asset transfer</entry></row>
+            <row><entry>5</entry><entry>stock purchase 1000 shares</entry></row>
+            <row><entry>6</entry><entry>purchase</entry></row>
+            <row><entry>7</entry><entry>foreign currency transfer SGD->AUD</entry></row>
+            <row><entry>8</entry><entry>loan repayment</entry></row>
+            <row><entry>9</entry><entry>credit card payment</entry></row>
+            <row><entry>10</entry><entry>purchase</entry></row>
+            <row><entry>11</entry><entry>purchase</entry></row>
+            <row><entry>12</entry><entry>income - split to 2 account</entry></row>
+            <row><entry>13</entry><entry>purchase</entry></row>
+            <row><entry>14</entry><entry>stock sale 500 shares</entry></row>
+          </tbody>
+        </tgroup>
+      </table>
+    </para>
+    <para> These records are to be imported to a newly opened datafile selecting the Common Accounts, Investment Accounts and Home Mortgage
+      Loan Accounts in the Account heirarchy setup. To begin the import select <menuchoice><guimenu>File</guimenu>-><guisubmenu>Import</guisubmenu>
+      -><guimenuitem>Import Transactions from CSV<guimenuitem></menuchoice> from the menu to open the Transaction Import Assistant. Use the
+      <guibutton>Next</guibutton> button to open the <guilabel>Select File for Import<guilabel> step dialog and navigate to the file location,
+      select the file to be imported. The Import Preview dialog will open with its default settings (No Settings) as shown in
+      <xref linkend='import-preview-multisplit-001'></xref>.
+    </para>
+    <figure id='import-preview-multisplit-001' pgwide="1">
+    <title>Import Preview window importing multi-split data - default import settings</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject role="html">
+          <imagedata fileref="figures/import-multisplit-Import Preview_001.png" format="PNG"
+                   srccredit="David Cousens" width="510px" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="figures/import-multisplit-Import Preview_001.png" format="PNG"
+                   srccredit="David Cousens" />
+        </imageobject>
+        <caption><para>The Import Preview window on opening showing its default importing settings.</para>
+        </caption>
+      </mediaobject>
+    </screenshot>
+    </figure>
+    <para> Select <guilabel>GnuCash Export Format</guilabel>
+      from the dropdown menu in the <guilabel>Load and Save Settings<guilabel> combo box. This will select most of the settings you will
+      require automatically. Note that <gulabel>Multi-split</guilabel> is checked, the <guilabel>Leading Lines to Skip</guilabel> is set to 1
+      and the <guilabel>Date Format</guilabel> is set to 'y-m-d' while the date format in the data is "d-m-y". The first data line indicates a parsing error
+      (the line has a pink background colour and a red "-" symbol at the start of the line. Selecting the 'd-m-y" in the <guilabel>Date Format</guilabel>
+      combobox will clear the error. The header information in the first line of the import data will appear in strikethrough format to indicate
+      that it will not be imported. The column headers displayed in the dropdown list boxes will be matched to the columns with the hbeaders of
+      the same name in the import data. The <guilabel>File Format</guilabel> will have the <guilabel>Separators</guilabel> radio button selected
+      and the <guilabel>Comma (,)</guilabel> checkbox checked. In the <guilabel>Miscellaneous</guilabel> settings, <guilabel>Encoding</guilabel>
+      is normally set to 'Unicode (UTF-8)', <gulabel>Currency Format</guilabel> to 'Locale', <guilabel>Trailing Lines to Skip</guilabel> to '0'
+      and <guibalel>Skip alternate lines</guilabel> is unchecked. The <guilabel>Skip Errors</guilabel> checkbox is unchecked - if checked any lines
+      with parse errors will not be imported at all.
+    </para>
+    <para> The Import Preview window with the required setting to import the multiline multisplit data is shown in <xref linkend='import-preview-multisplit-002'></xref>
+    </para>
+    <figure id='import-preview-multisplit-002' pgwide="1">
+    <title>Import Preview window importing multi-split data - import settings for the import of multisplit data</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject role="html">
+          <imagedata fileref="figures/import-multisplit-Import Preview_002.png" format="PNG"
+                   srccredit="David Cousens" width="510px" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="figures/import-multisplit-Import Preview_002.png" format="PNG"
+                   srccredit="David Cousens" />
+        </imageobject>
+        <caption><para>The Import Preview window with GnuCash Export Format settings and correct Date Format settings selected.</para>
+        </caption>
+      </mediaobject>
+    </screenshot>
+    </figure>
+    <para> Clicking on the <guibutton>Next</guibutton> button will then open the <guilabel>Match Import and GnuCash Accounts</guilabel>
+      window. As this import is to a new file to which data has not previously been imported &app; does not assume that the account names
+      in the import data are necessarily the accounts in the &app; account heirarchy to which you wish to import the data, even though the
+      account names may actually be the same as indicated in <xref linkend='import-multisplit-match-import-account-001'></xref> by the
+      <guilabel>No Linked Account</guilabel> value in the <guilabel>Account Name</guilabel> column against the account names in the
+      imported data shown in the <guilabel>Account ID</guilabel> column.
+    </para>
+    <figure id='import-multisplit-match-import-account-001' pgwide="1">
+    <title>Match Import and GnuCash accounts window before assigning &app; accounts to the imported account names</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject role="html">
+          <imagedata fileref="figures/import-multisplit-match-import-account-001.png" format="PNG"
+                   srccredit="David Cousens" width="510px" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="figures/import-multisplit-match-import-account-001.png" format="PNG"
+                   srccredit="David Cousens" />
+        </imageobject>
+      </mediaobject>
+    </screenshot>
+    </figure>
+    <para>To select the appropriate &app; accounts either double click on a row or select the row and click on the <guibutton>Change GnuCash Account</guibutton>
+      button. An <guilabel>Select Account</guilabel> dialog will then open allowing you to select the required account in the &app; account heirarchy. In this example
+      the account names are the same but this may not be the case when importing data exported from other programs. The "Asset:Current Assets:Savings Account SGD" does not
+      exist in the default account heirarchy and neither does the specific stock account. The <guilabel>Select Account</guilabel> dialog has a <guibutton>New Account</guibutton>
+      button which will allow you to add any accounts required which are not already present in the &app; account heirarchy. This account mapping will be used in all
+      future imports to this data file/book and the dialog will not appear again unless future imported data contains an unmapped account name. Once all imported account
+      names have been matched to an account in the &app; account heirarchy as shown in <xref linkend='import-multisplit-match-import-account-002'></xref>,
+      click on the <guibutton>Next</guibutton> button.
+    </para>
+    <figure id='import-multisplit-match-import-account-002' pgwide="1">
+    <title>Match Import and GnuCash accounts window before assigning &app; accounts to the imported account names</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject role="html">
+          <imagedata fileref="figures/import-multisplit-match-import-account-002.png" format="PNG"
+                   srccredit="David Cousens" width="510px" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="figures/import-multisplit-match-import-account-002.png" format="PNG"
+                   srccredit="David Cousens" />
+        </imageobject>
+      </mediaobject>
+    </screenshot>
+    </figure>
+    <para>The next screen is informational. Clicking <guibutton>Next</guibutton>will then bring up the Import Transaction Matcher shown in
+      <xref linkend='import-multisplit-match-transactions'></xref>. The purpose of this process is to check the assignment of the trasnfer
+      account to the imported data. In this case the imported records specified the transfer accounts for each split in the transaction
+      with the exception of the transaction transferring funds from the Singapore currency Savings account.
+    </para>
+    <note><para>As indicated the transaction as imported is unbalanced.This is currently a bug in the import of currency transfers and the
+      imbalance amount should have been covered by the currency conversion rate. To correct this at present you have to manually edit the
+      exchange rate by editing the transaction values for each split back to the correct value for that currency. E.g in the AUD account
+      both splits have to be set to $10000 and in the SGD account both splits set to 9440.20. This brings up the currency conversion window
+      allowing you to enter the correct currency conversion factor. In this case this is the inverse of the price in the import record,
+      i.e 47201/(2799+47201). Another alternative is to convert any prices in the import data with a rational number format to a decimal
+      number. This will then import correctly.</para>
+    </note> <!--FIXME At present this illustrates a problem with the import of currency transfer data prices Bug 797133  DRC-->
+    <figure id='import-multisplit-match-transactions' pgwide="1">
+    <title>Match Import and GnuCash accounts window before assigning &app; accounts to the imported account names</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject role="html">
+          <imagedata fileref="figures/import-multisplit-Match-Transactions.png" format="PNG"
+                   srccredit="David Cousens" width="510px" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="figures/import-multisplit-Match-Transactions.png" format="PNG"
+                   srccredit="David Cousens" />
+        </imageobject>
+      </mediaobject>
+    </screenshot>
+    </figure>
+    <para>When transfer accounts have been assigned to all transactions in the IMport Transaction Matcher (i.e. the background color of
+      all rows is light green), click on the <guibutton>Apply</guibutton> button to complete the import of the data. If you leave any transaction
+      without a transfer account assigned (gold background color for the row) it will be imported to an Imbalance account in the currency
+      of the book. The presence of transactions to an Imbalance account is intended to flag that the transaction is unbalanced and needs
+      to be corrected manually. Such transactions should be corrected as required.
+    </para>
+  </sect1>
 </chapter>

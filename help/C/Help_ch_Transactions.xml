@@ -2073,7 +2073,179 @@ Author:
       <title>Export Summary</title>
       <para>Displays a message if the file is successfully exported or an error message and debugging suggections if not.</para>
     </sect2>
-  </sect1>
+    <sect2 id="trans-export-formats">
+      <title>Export Formats</title>
+      <para>It is appropriate to discuss the exported data formats from <application>&app;</application>
+        before discussing the import of data. <application>&app;</application> only exports data in CSV  format. The output format has the following options selectable by checkboxes and
+        radio buttons in the export dialog:
+        <itemizedlist>
+          <listitem><emphasis role="bold">Use Quotes</emphasis><para>: Each output field can be enclosed in quotes.
+            This is not the default but may be required when importing data to other programs;</para>
+          </listitem>
+          <listitem><emphasis role="bold">Simple Layout</emphasis><para>: Selecting this format will export the
+            data with each record on a single line. This can only deal with transaction data which has at most two
+            splits and does not contain the full information describing a transaction within GnuCash. If nort selected
+            the data is exported in a multiline format in which each split of a transaction is on a separate line  with
+            common data for the transaction only on the first line.</para>
+          </listitem>
+          <listitem><emphasis role="bold">Separators</emphasis><para><application>&app;</application> allows the use of
+            separators other than the comma in both exported and imported data including the colon and semicolon or a 
+            custom defined character. The other separators may be required for import in other programs or used in exported
+            data from other programs. They will not e discussed further but may be substiuted for the comma where it is used
+            here.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <sect3 id="importing-simple-layout">
+      <title>Simple Layout</title>
+        <para>With the Simple Layout option <application>&app;</application> exports date under the following headings
+          which appear in the first line of the exported file:
+          <itemizedist>
+            <listitem><emphasis role="bold">Date</emphasis><para>: transaction date in <application>&app;</application>;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Account Name</emphasis><para>: The <application>&app;</application> account tree path
+              for the account from which transactions are being exported. This will either be the active register or one of 
+              the accounts selected for export in the account selection dialog;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Number</emphasis><para>: The Number transaction field value if specified as it
+              appears in the acount register;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Description</emphasis><para>: The Transaction Description field;</para>
+            </listitem>
+            <listitem><emphasis role="bold"></emphasis>Full Category Path<para>: The <application>&app;</application> acount tree
+              path for the account targeted by the second split of a transaction. If the exported transaction has more than two
+              splits it will contain "-- Split Transaction --" to indicate that the exported transaction has more than two splits
+              and information will be lost exporting in this format;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Reconcile</emphasis><para>: The reconciliation status of the transaction:
+              <itemizedlist>
+                <listitem><emphasis role="bold">"n"</emphasis><para>: Not reconciled;</para>
+                </listitem>
+                <listitem><emphasis role="bold">"c"</emphasis><para>: Cleared but not reconciled;</para>
+                </listitem>
+                <listitem><emphasis role="bold">"y"</emphasis><para>: Reconciled against external statement.</para>
+                </listitem>
+              </itemizedlist>;
+            </para>
+            </listitem>
+            <listitem><emphasis role="bold">Amount With Sym</emphasis><para>: The amount of the transaction with the currency
+              symbol included. Positive amounts represent debits and negative amounts represent credits to the account specified
+              under the <emphasis role="bold">Account Name</emphasis> field. The effect of debits is to increase the account balance
+              of Asset and Expense type accounts and decrease the balance of Liability, Equity and Income type accounts with credits
+              having the reverse effect on the repective account types. Some software may import this as a text string rather than as a
+              numerical value because of the presence of the currency symbol;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Amount Num</emphasis><para>: Numerical value of the transaction amount without the 
+              currency symbol -  otherwise as described for the <emphasis role="bold">Amount With Sym</emphasis> field. This is
+              provided for numerical import by software which would interpret the previous column as a string;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Rate/Price</emphasis><para>: The currency conversion rate for transactions involving
+              multiple currncies or the price for buy/sell transactions of transactions involving stock.</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <para>An example of the Simple Layout format output for transactions to a Savings Account is:
+        <literallayout>
+Date,Account Name,Number,Description,Full Category Path,Reconcile,Amount With Sym,Amount Num.,Rate/Price
+12/09/2016,Assets:Current Assets:Savings Account,,Opening Balance-Savings,Equity:Opening Balances,n,"$4,000.00","4,000.00",1.00
+12/09/2016,Assets:Current Assets:Savings Account,,Salary ,-- Split Transaction --,n,"$1,350.00","1,350.00",1.00
+13/09/2016,Assets:Current Assets:Savings Account,,Interest,Income:Interest Income:Savings Interest,n,$10.19,10.19,1.00
+12/10/2016,Assets:Current Assets:Savings Account,,Salary ,-- Split Transaction --,n,"$1,350.00","1,350.00",1.00
+12/10/2016,Assets:Current Assets:Savings Account,,Interest,Income:Interest Income:Savings Interest,n,$11.23,11.23,1.00
+31/10/2016,Assets:Current Assets:Savings Account,,Close Singapore Account -transfer funds,Assets:Current Assets:Savings Account SGD,n,"$4,256.79","4,256.79",395980/425679
+</literallayout>
+        </para>
+      </sect3> <!-- id="importing-simple-layout" -->
+      <sect3 id="importing-multiline">
+        <title>Multiline Layout</title>
+        <para>The multiline layout represents each split of a transaction on a separate line with the first line containing
+          the transaction fields which are common to all splits in the leading columns followed by the information for the 
+          first split. The lines for other splits have blank fields (comma separated) for the common fields and are only
+          populated for the split specific fields.
+        </para>
+        <para>The data fields for the multiline layout indicating the fields which are common and those which are specific
+          to a split are:
+          <itemizedlist>
+            <listitem><emphasis role="bold">Date</emphasis><para>: (common field)Transaction date in <application>&app;</application>;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Transaction ID</emphasis><para>: (common field) Unique UUID generated by <application>&app;</application>
+              associated with the transaction;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Number </emphasis><para>: (common field) The Number transaction field value if specified as it
+              appears in the acount register;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Description</emphasis><para>: (common field) The Transaction Description field;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Notes</emphasis><para>: (common field) The Transaction notes;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Commodity/Currency</emphasis><para>: (common field) The commodity or currency of
+              the account associated with the first split of the transaction;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Void Reason</emphasis><para>: (common field) The reason a transactions is marked as void.</para>
+            </listitem>
+            <listitem><emphasis role="bold">Action</emphasis><para>: (split field) The action (if applicable) associated with the split of the transaction;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Memo</emphasis><para>: (split field) The memo field for the split.</para>
+            </listitem>
+            <listitem><emphasis role="bold">Full Account Name</emphasis><para>: (split field) The <application>&app;</application> account tree path
+              for the account the split debits or credits;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Account Name</emphasis><para>: (split field) Just the name of the account;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Amount With Sym</emphasis><para>: (split field) The amount of the transaction with the currency
+              symbol included. Positive amounts represent debits and negative amounts represent credits to the account specified
+              under the <emphasis role="bold">Account Name</emphasis> field. The effect of debits is to increase the account balance
+              of Asset and Expense type accounts and decrease the balance of Liability, Equity and Income type accounts with credits
+              having the reverse effect on the repective account types. Some software may import this as a text string rather than as a
+              numerical value because of the presence of the currency symbol;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Amount Num.</emphasis><para>: (split field) Numerical value of the transaction amount without the 
+              currency symbol -  otherwise as described for the <emphasis role="bold">Amount With Sym</emphasis> field. This is
+              provided for numerical import by software which would interpret the previous column as a string;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Reconcile</emphasis><para>: (split field) The reconciliation status of the transaction:
+              <itemizedlist>
+                <listitem><emphasis role="bold">"n"</emphasis><para>: Not reconciled;</para>
+                </listitem>
+                <listitem><emphasis role="bold">"c"</emphasis><para>: Cleared but not reconciled;</para>
+                </listitem>
+                <listitem><emphasis role="bold">"y"</emphasis><para>: Reconciled against external statement.</para>
+                </listitem>
+              </itemizedlist>;</para>
+            </listitem>
+           <listitem><emphasis role="bold">Reconcile Date</emphasis><para>: (split field) The date at which the split was reconciled
+            in a reconciliation of the account in the <emphasis role="bold">Full Account Name</emphasis> and <emphasis role="bold">Account Name</emphasis>
+            fields;</para>
+            </listitem>
+            <listitem><emphasis role="bold">Rate/Price</emphasis><para>: (split field) The currency conversion rate between the
+              currency specified in the <emphasis role="bold">Commodity/Currency</emphasis> field and the currency of the account
+              specified in the <emphasis role="bold">Full Account Name</emphasis> and <emphasis role="bold">Account Name</emphasis>
+              fields.</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <para>An example of the MultiLine Layout format output for transactions to a Savings Account is:
+    <literallayout>
+Date,Transaction ID,Number,Description,Notes,Commodity/Currency,Void Reason,Action,Memo,Full Account Name,Account Name,Amount With Sym,Amount Num.,Reconcile,Reconcile Date,Rate/Price
+12/09/2016,5a82497980a74f578884d934e3cb103b,,Opening Balance-Savings,,CURRENCY::AUD,,,,Assets:Current Assets:Savings Account,Savings Account,"$4,000.00","4,000.00",n,,1.00
+,,,,,,,,,Equity:Opening Balances,Opening Balances,"-$4,000.00","-4,000.00",n,,1.00
+12/09/2016,e140f32b356948a68b812a946810858d,,Salary ,,CURRENCY::AUD,,,,Assets:Current Assets:Savings Account,Savings Account,"$1,350.00","1,350.00",n,,1.00
+,,,,,,,,,Assets:Current Assets:Checking Account,Checking Account,"$4,000.00","4,000.00",n,,1.00
+,,,,,,,,,Income:Salary,Salary,"-$5,350.00","-5,350.00",n,,1.00
+13/09/2016,e76eceec40d746cdbaf9f7967cb35966,,Interest,,CURRENCY::AUD,,,,Assets:Current Assets:Savings Account,Savings Account,$10.19,10.19,n,,1.00
+,,,,,,,,,Income:Interest Income:Savings Interest,Savings Interest,-$10.19,-10.19,n,,1.00
+12/10/2016,d819158b019641699e5db081c6a2bef7,,Salary ,,CURRENCY::AUD,,,,Assets:Current Assets:Savings Account,Savings Account,"$1,350.00","1,350.00",n,,1.00
+,,,,,,,,,Assets:Current Assets:Checking Account,Checking Account,"$4,000.00","4,000.00",n,,1.00
+,,,,,,,,,Income:Salary,Salary,"-$5,350.00","-5,350.00",n,,1.00
+12/10/2016,4b0f87e8d9914262afd6cda61858e2fc,,Interest,,CURRENCY::AUD,,,,Assets:Current Assets:Savings Account,Savings Account,$11.23,11.23,n,,1.00
+,,,,,,,,,Income:Interest Income:Savings Interest,Savings Interest,-$11.23,-11.23,n,,1.00
+31/10/2016,bdcaa537ea704919855d8194284a3ab8,,Close Singapore Account -transfer funds,,CURRENCY::SGD,,,,Assets:Current Assets:Savings Account,Savings Account,"$4,256.79","4,256.79",n,,395980/425679
+,,,,,,,,,Assets:Current Assets:Savings Account SGD,Savings Account SGD,"-S$3,959.80","-3,959.80",n,,1.00
+    </literallayout>
+          This is the same data as exported in the Simple Layout format above.  
+        </para>
+      </sect3> <!-- id="importing-multiline" -->
+    </sect2> <!-- id="trans-export-formats" -->
 
   <sect1 id="trans-online">
     <title>Online Actions ...</title>

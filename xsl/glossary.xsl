@@ -10,6 +10,7 @@
 <!--
 <xsl:import href="/usr/share/sgml/docbook/stylesheet/xsl/nwalsh-1.45/html/chunk.xsl"/>
 -->
+<xsl:param name="glossary.collection">glossary.xml</xsl:param>
 <xsl:template match="glossentry/glossterm">
   <dt>
     <b>

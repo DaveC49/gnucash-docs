@@ -6,9 +6,10 @@
 
 <!-- ****************************Emphasis************************-->
 
-<!-- Custom template to make the application tag bold fixed width -->
-<xsl:template match="application">
-  <xsl:call-template name="inline.boldmonoseq"/>
-</xsl:template>
+<!-- Custom template to make the mousebuttontags bold the text. -->
+
+  <xsl:template match="mousebutton">
+    <xsl:call-template name="inline.boldseq"/>
+  </xsl:template>
 
 </xsl:stylesheet>

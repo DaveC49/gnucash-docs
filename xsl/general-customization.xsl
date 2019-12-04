@@ -71,6 +71,11 @@
 <!-- Bolds the <sgmltag>guimenu</sgmltag>. -->
 <xsl:include href="guimenu.xsl"/>
 
+<!-- Bolds the sgmltag>mousebutton</sgmltag>. -->
+<xsl:include href="mousebutton.xsl"/>
+
+<!-- Bolds the sgmltag>keycap</sgmltag> and  <sgml tag>keysym</sgml tag>. -->
+<xsl:include href="keycap.xsl"/>
 
 <!-- Bolds the <sgmltag>term</sgmltag> in the variable list. -->
 <xsl:include href="variablelist.xsl"/>
