@@ -35,12 +35,15 @@
     you calculate the overall value when you have mixed currency accounts? How
     do reports deal with mixed currencies?</para>
 
-    <para>You can either deal with multiple currencies using manually entered transactions
-    to record currency gains and losses as described in <xref linkend="currency_manual" /> or you can
-    utilize currency trading accounts introduced with &app; version 2.3.14 to automatically record the
-    gains and losses on transactions between currencies as described in the subsequent section. Trading
-    accounts are not enabled by default in &app; and must be explicitly enabled as described in
-    <xref linkend="currency_trading_accts" />.</para>
+    <para>You can either deal with multiple currency transaction using manually
+    entered transactions to record currency gains and losses as described in
+    the <link linkend="currency_manual">Manually Recording Currency Transactions</link>
+    section or you can utilize currency trading accounts introduced with &app;
+    version 2.3.14 to automatically record the gains and losses on transactions
+    between currencies as described <link linkend="currency_trading">
+    Recording Foreign Currency Transactions with Trading Accounts</link>
+    section. Trading accounts are not enabled by default in &app; and must
+    be explicitly enabled as described in that section.</para>
 
 <!-- TODO: add sections
     <para>The following sections are common to both manually recording gains
